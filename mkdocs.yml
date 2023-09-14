@@ -1,0 +1,5 @@
+site_name: Arduino Snippets
+nav:
+  - Home: index.md
+theme:
+  name: "material"
