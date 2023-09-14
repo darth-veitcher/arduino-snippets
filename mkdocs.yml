@@ -1,5 +1,70 @@
 site_name: Arduino Snippets
 nav:
   - Home: index.md
+  - Sensors:
+      - AHT10: sensors/AHT10/aht10-temp-humidity.md
 theme:
   name: "material"
+  features:
+    - navigation.instant
+    - navigation.tracking
+    - navigation.tabs
+    - navigation.top
+  font:
+    # text: 'Abel'  # Ubuntu
+    code: "Hackman" # Ubuntu Mono
+
+# Markdown and Extensions
+# https://squidfunk.github.io/mkdocs-material/setup/extensions/python-markdown
+# https://squidfunk.github.io/mkdocs-material/setup/extensions/python-markdown-extensions
+markdown_extensions:
+  - md_in_html # required for manual control of elements like images
+  - mdx_truly_sane_lists # required for nested/indented lists
+  - abbr
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - toc:
+      permalink: true
+      baselevel: 3
+  - tables
+  # Python Markdown Extensions
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.mark
+  - pymdownx.tilde
+  - pymdownx.critic
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg
+  - pymdownx.highlight:
+      auto_title: true
+      anchor_linenums: true
+      linenums_style: table
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.smartsymbols
+  - pymdownx.snippets:
+      base_path: ["."]
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+      clickable_checkbox: true
+plugins:
+  - search
+  - include-markdown
+  - minify:
+      minify_html: true
+  - mike:
+      canonical_version: stable
+      version_selector: true
