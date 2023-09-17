@@ -3,13 +3,75 @@ services:
 
   mosquitto:
     image: eclipse-mosquitto:latest
+    restart: always
     volumes:
       - ./config/mqtt/mosquitto.conf:/mosquitto/config/mosquitto.conf:ro
     ports:
       - "1883:1883"
       - "9001:9001"
+    networks:
+      - iot
   
+  influxdb:
+    image: influxdb:latest
+    restart: always
+    user: "1000"
+    environment:
+      DOCKER_INFLUXDB_INIT_MODE: setup
+      DOCKER_INFLUXDB_INIT_USERNAME: admin
+      DOCKER_INFLUXDB_INIT_PASSWORD: adminpassword
+      DOCKER_INFLUXDB_INIT_ORG: cave
+      DOCKER_INFLUXDB_INIT_BUCKET: arduino-bucket
+      DOCKER_INFLUXDB_INIT_RETENTION: 1w
+      DOCKER_INFLUXDB_INIT_ADMIN_TOKEN: c1b8aca2722167c15684409b7ad791607896c4c20be1fa0d3040e439fdd72747
+      DOCKER_INFLUXDB_INIT_CLI_CONFIG_NAME: cave
+    ports:
+      - "8086:8086"
+    volumes:
+      - influxdb-data:/var/lib/influxdb2
+      - influxdb-configs:/etc/influxdb2
+    networks:
+      - iot
+
+  telegraf:
+    image: telegraf:latest
+    restart: always
+    user: telegraf
+    environment:
+      INFLUX_TOKEN: c1b8aca2722167c15684409b7ad791607896c4c20be1fa0d3040e439fdd72747
+    volumes:
+      - ./config/telegraf/telegraf.conf:/etc/telegraf/telegraf.conf:ro
+    depends_on:
+      - influxdb
+      - mosquitto
+    networks:
+      - iot
+
   grafana:
     image: grafana/grafana:latest
+    restart: always
     ports:
       - "3000:3000"
+    volumes:
+      # - ./grafana-provisioning:/etc/grafana/provisioning
+      - grafana-data:/var/lib/grafana
+    networks:
+      - iot
+  
+  sensor_mocker:
+    build:
+      context: sensor_mocker
+      dockerfile: Dockerfile
+    image: darthveitcher/sensor_mocker
+    depends_on:
+      - mosquitto
+    networks:
+      - iot
+
+networks:
+  iot:
+
+volumes:
+  grafana-data:
+  influxdb-data:
+  influxdb-configs:
