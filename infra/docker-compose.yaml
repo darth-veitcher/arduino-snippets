@@ -1,0 +1,15 @@
+version: '3'
+services:
+
+  mosquitto:
+    image: eclipse-mosquitto:latest
+    volumes:
+      - ./config/mqtt/mosquitto.conf:/mosquitto/config/mosquitto.conf:ro
+    ports:
+      - "1883:1883"
+      - "9001:9001"
+  
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
