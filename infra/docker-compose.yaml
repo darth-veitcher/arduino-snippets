@@ -50,10 +50,12 @@ services:
   grafana:
     image: grafana/grafana:latest
     restart: always
+    environment:
+      GF_INSTALL_PLUGINS: grafana-mqtt-datasource
     ports:
       - "3000:3000"
     volumes:
-      # - ./grafana-provisioning:/etc/grafana/provisioning
+      - ./config/grafana/grafana-provisioning:/etc/grafana/provisioning
       - grafana-data:/var/lib/grafana
     networks:
       - iot

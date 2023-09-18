@@ -1,0 +1,24 @@
+apiVersion: 1
+datasources:
+- orgId: 1
+  version: 3
+  name: InfluxDB
+  type: influxdb
+  access: proxy
+  url: http://influxdb:8086
+  jsonData:
+    defaultBucket: arduino-bucket
+    httpMode: POST
+    organization: cave
+    timeInterval: 10s
+    version: Flux
+  secureJsonData:
+    token: c1b8aca2722167c15684409b7ad791607896c4c20be1fa0d3040e439fdd72747
+- orgId: 1
+  version: 2
+  name: MQTT
+  type: grafana-mqtt-datasource
+  access: proxy
+  isDefault: true
+  jsonData:
+    uri: mqtt://mosquitto:1883
