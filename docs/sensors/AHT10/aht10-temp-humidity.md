@@ -78,9 +78,17 @@ This device can be found [AHT10 High Precision Digital Temperature and Humidity 
 
 ## Connecting to MQTT Backend
 
-Using the provided [infra/docker-compose.yaml](../../../infra/docker-compose.yaml) within this repository as an assumed target we are going to send temperature and humidity sensor data to a [mosquitto MQTT](https://mosquitto.org/) backend to then be displayed in a Grafana interface.
+Using the provided [infra/docker-compose.yaml](https://github.com/darth-veitcher/arduino-snippets/tree/main/infra/docker-compose.yaml) within this repository as an assumed target we are going to send temperature and humidity sensor data to a [mosquitto MQTT](https://mosquitto.org/) backend to then be displayed in a Grafana interface.
 
 The below code will connect to the WiFi and then serialise to JSON the measurements before sending through the results to a specified MQTT broker.
+
+??? info "docker-compose.yaml"
+
+    ```yaml
+    {%
+      include "../../../infra/docker-compose.yaml"
+    %}
+    ```
 
 ??? tip "main.cpp"
 
